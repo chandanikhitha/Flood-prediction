@@ -1,71 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Flood Prediction</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            text-align: center;
-            margin-top: 100px;
-        }
+<h1>🌊 Flood Prediction</h1>
 
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            width: 300px;
-            margin: auto;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        }
+<form action="/predict" method="post">
 
-        h1 {
-            color: #333;
-        }
+    <input type="text" name="rainfall" placeholder="Enter Rainfall" required>
+    <input type="text" name="temperature" placeholder="Enter Temperature" required>
 
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+    <!-- 🌍 City input -->
+    <input type="text" name="city" placeholder="Enter City (optional)">
 
-        button {
-            background: #4facfe;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    <button type="submit">Predict</button>
+</form>
 
-        button:hover {
-            background: #00c6ff;
-        }
-
-        h3 {
-            margin-top: 20px;
-            color: green;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container">
-    <h1>🌊 Flood Prediction</h1>
-
-    <form action="{{ url_for('predict') }}" method="post">
-        <input type="text" name="rainfall" placeholder="Enter Rainfall" required>
-        <input type="text" name="temperature" placeholder="Enter Temperature" required>
-        <button type="submit">Predict</button>
-    </form>
-
-    {% if prediction_text %}
-        <h3>{{ prediction_text }}</h3>
-    {% endif %}
-</div>
-
-</body>
-</html>
+{% if prediction_text %}
+    <h3>{{ prediction_text }}</h3>
+    <img src="{{ url_for('static', filename='graph.png') }}" width="300">
+{% endif %}

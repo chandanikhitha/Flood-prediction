@@ -1,45 +1,64 @@
-from flask import Flask, render_template, request
+from flask import Flask, request, render_template
 import pickle
 import os
+import matplotlib.pyplot as plt
+import requests
 
 app = Flask(__name__)
 
-# ✅ Safe model load
-model = None
-if os.path.exists("model.pkl"):
-    model = pickle.load(open("model.pkl", "rb"))
+# Load model
+model = pickle.load(open(os.path.join(os.getcwd(), "model.pkl"), "rb"))
 
-# ✅ Home route
-@app.route("/")
+# 🌍 Weather API function
+def get_weather(city):
+    api_key = "YOUR_API_KEY"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
+
+    response = requests.get(url)
+    data = response.json()
+
+    temp = data['main']['temp']
+    humidity = data['main']['humidity']
+
+    return temp, humidity
+
+# 📊 Graph function
+import matplotlib.pyplot as plt
+def create_graph(rainfall, temperature):
+    values = [rainfall, temperature]
+    labels = ['Rainfall', 'Temperature']
+
+    plt.bar(labels, values)
+    plt.title("Input Visualization")
+    plt.savefig("static/graph.png")
+    plt.close()
+
+@app.route('/')
 def home():
-    return render_template("index.html")
+    return render_template('index.html')
 
-# ✅ Prediction route
 @app.route('/predict', methods=['POST'])
 def predict():
-    if model is None:
-        return "Model not loaded!"
+    rainfall = float(request.form['rainfall'])
+    temperature = float(request.form['temperature'])
+    city = request.form['city']
 
-    try:
-        # ✅ Get input values
-        rainfall = float(request.form['rainfall'])
-        temperature = float(request.form['temperature'])
+    # API use
+    if city:
+        temperature, humidity = get_weather(city)
+    else:
+        humidity = 50  # default
 
-        # ✅ Model prediction
-        prediction = model.predict([[rainfall, temperature]])[0]
+    create_graph(rainfall, temperature)
 
-        # 🔥 Flood warning logic
-        if prediction == 1:
-            result = "⚠️ Flood Warning!"
-        else:
-            result = "✅ No Flood"
+    prediction = model.predict([[rainfall, temperature]])
 
-        # ✅ Send result to HTML
-        return render_template("index.html", prediction_text=result)
+    if prediction[0] == 1:
+        result = "⚠️ Flood Risk!"
+    else:
+        result = "✅ No Flood"
 
-    except Exception as e:
-        return f"Error: {str(e)}"
+    return render_template('index.html', prediction_text=result)
 
-# ✅ Run locally
 if __name__ == "__main__":
     app.run(debug=True)
