@@ -2,12 +2,11 @@ from flask import Flask, request, render_template
 import pickle
 import os
 import matplotlib.pyplot as plt
-import requests
 
 app = Flask(__name__)
 
 # Load model
-model = pickle.load(open(os.path.join(os.getcwd(), "model.pkl"), "rb"))
+model = pickle.load(open('models/model.pkl', 'rb'))
 
 # 🌍 Weather API function
 def get_weather(city):

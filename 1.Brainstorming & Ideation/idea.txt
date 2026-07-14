@@ -1,0 +1,8 @@
+Project Idea:
+This project is a Machine Learning web app that predicts outcomes based on user input.
+
+Problem:
+Users cannot directly use ML models.
+
+Solution:
+We created a simple web interface using Flask.

@@ -1,0 +1,4 @@
+Step 1: Collect data
+Step 2: Train model
+Step 3: Create Flask app
+Step 4: Deploy

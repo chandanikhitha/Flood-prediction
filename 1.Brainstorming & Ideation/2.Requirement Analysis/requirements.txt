@@ -1,0 +1,7 @@
+Functional Requirements:
+- User input form
+- Prediction output
+
+Non-Functional:
+- Fast response
+- Simple UI

@@ -1,0 +1,11 @@
+Project Development:
+
+The project is developed using Python and Flask framework.
+Machine learning model is built using Random Forest algorithm.
+
+Steps:
+1. Data collection from dataset.csv
+2. Data preprocessing
+3. Model training using model.py
+4. Saving model as model.pkl
+5. Integration with Flask app

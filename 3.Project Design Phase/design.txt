@@ -1,0 +1,6 @@
+Frontend: HTML
+Backend: Flask
+Model: Machine Learning model.pkl
+
+Flow:
+User → Form → Flask → Model → Output

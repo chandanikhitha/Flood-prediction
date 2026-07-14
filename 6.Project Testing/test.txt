@@ -1,0 +1,10 @@
+Project Testing:
+
+The application is tested using different input values.
+
+Test Cases:
+1. Low rainfall → Low water level
+2. High rainfall → High water level
+
+Result:
+The model predicts water level accurately based on input data.
